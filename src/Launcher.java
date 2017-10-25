@@ -1,6 +1,6 @@
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.clevermonkeylabs.obscura.core.ObscuraApplication;
+import org.clevermonkeylabs.obscura.ObscuraApplication;
 /**
  * Created by Thomas on 9/28/2017.
  */

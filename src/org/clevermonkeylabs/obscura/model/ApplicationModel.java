@@ -1,15 +1,19 @@
-package org.clevermonkeylabs.obscura.core;
+package org.clevermonkeylabs.obscura.model;
+
+import org.clevermonkeylabs.obscura.core.AbstractModel;
+import org.clevermonkeylabs.obscura.view.ApplicationView;
 
 import java.util.ArrayList;
 
 /**
  * Created by Thomas on 10/12/2017.
  */
-public class ApplicationModel {
+public class ApplicationModel extends AbstractModel<ApplicationView> {
     private ArrayList<ImageModel> images = new ArrayList<>();
     private ImageModel currentImage = null;
 
-    public ApplicationModel() {
+    public ApplicationModel(ApplicationView view) {
+        super(view);
     }
 
     public ImageModel getCurrentImage() {

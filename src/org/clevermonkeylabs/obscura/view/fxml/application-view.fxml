@@ -11,9 +11,9 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Open" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#open" text="Open" />
+                  <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Image">
@@ -33,18 +33,13 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#about" text="About" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
    <center>
-      <SplitPane dividerPositions="0.6605351170568562" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <items>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" />
-            <Accordion prefWidth="20.0" />
-         </items>
-      </SplitPane>
+      <SplitPane id="applicationWorkspace" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

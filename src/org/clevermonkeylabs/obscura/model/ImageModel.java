@@ -1,34 +1,40 @@
-package org.clevermonkeylabs.obscura.core;
+package org.clevermonkeylabs.obscura.model;
 
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import org.clevermonkeylabs.obscura.core.AbstractModel;
+import org.clevermonkeylabs.obscura.view.ImageTabView;
 
 /**
  * Created by Thomas on 10/12/2017.
  */
-public class ImageModel {
+public class ImageModel extends AbstractModel<ImageTabView> {
     private String name;
     private WritableImage image;
     private int[][][] data;
     private int width, height;
 
-    /**
-     * Constructor to create a new image model using a file location of the image in JPG, PNG, GIF, and BMP format.
-     * @param filePath
-     */
-    public ImageModel(String filePath){
-
+    public ImageModel(ImageTabView view) {
+        super(view);
     }
 
-    /**
-     * Constructor to create a copy of another image with the same width and height
-     * @param reader
-     * @param width
-     * @param height
-     */
-    public ImageModel(PixelReader reader, int width, int height) {
-
-    }
+//    /**
+//     * Constructor to create a new image model using a file location of the image in JPG, PNG, GIF, and BMP format.
+//     * @param filePath
+//     */
+//    public ImageModel(String filePath){
+//
+//    }
+//
+//    /**
+//     * Constructor to create a copy of another image with the same width and height
+//     * @param reader
+//     * @param width
+//     * @param height
+//     */
+//    public ImageModel(PixelReader reader, int width, int height) {
+//
+//    }
 
     /**
      *
