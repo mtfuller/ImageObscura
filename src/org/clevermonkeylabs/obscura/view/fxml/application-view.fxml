@@ -7,7 +7,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
+      <MenuBar id="imageMenu" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -16,21 +16,21 @@
                   <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Image">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Transformations">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Filters">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
-               </items>
-            </Menu>
+          <!--<Menu  mnemonicParsing="false" text="Image">-->
+            <!--<items>-->
+              <!--<MenuItem mnemonicParsing="false" text="Delete" />-->
+            <!--</items>-->
+          <!--</Menu>-->
+            <!--<Menu id="transformationMenu" mnemonicParsing="false" text="Transformations">-->
+               <!--<items>-->
+                  <!--<MenuItem mnemonicParsing="false" text="Delete" />-->
+               <!--</items>-->
+            <!--</Menu>-->
+            <!--<Menu id="filterMenu" mnemonicParsing="false" text="Filters">-->
+               <!--<items>-->
+                  <!--<MenuItem mnemonicParsing="false" text="Delete" />-->
+               <!--</items>-->
+            <!--</Menu>-->
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#about" text="About" />

@@ -4,17 +4,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.clevermonkeylabs.obscura.controller.MenuController;
+import org.clevermonkeylabs.obscura.core.AbstractPlugin;
 import org.clevermonkeylabs.obscura.core.AbstractView;
 import org.clevermonkeylabs.obscura.util.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -22,6 +22,12 @@ import java.util.HashMap;
  */
 public class ApplicationView extends AbstractView<MenuController> {
     private Scene scene = null;
+
+    private MenuBar menuBar;
+    private Menu imageMenu = new Menu("Image");
+    private Menu transformationMenu = new Menu("Transformation");
+    private Menu filterMenu = new Menu("Filter");
+
     private SplitPane workspace = null;
     private TabPane imageTabWorkspace;
     private HashMap<Tab, ImageTabView> imageTabMap = new HashMap<>();
@@ -42,6 +48,30 @@ public class ApplicationView extends AbstractView<MenuController> {
         });
 
         workspace.getItems().add(imageTabWorkspace);
+
+        menuBar = (MenuBar) this.scene.lookup("#imageMenu");
+        menuBar.getMenus().add(1, imageMenu);
+        menuBar.getMenus().add(2, transformationMenu);
+        menuBar.getMenus().add(3, filterMenu);
+    }
+
+    public void addPlugin(AbstractPlugin plugin) {
+        Menu chosenMenu;
+        switch (plugin.getGroup()) {
+            case IMAGE:
+                chosenMenu = imageMenu;
+                break;
+            case TRANSFORMATION:
+                chosenMenu = transformationMenu;
+                break;
+            default:
+                chosenMenu = filterMenu;
+        }
+
+        MenuItem menuItem = new MenuItem(plugin.getName());
+        menuItem.setOnAction(event -> plugin.run());
+        chosenMenu.getItems().add(menuItem);
+        chosenMenu.getItems().sort(Comparator.comparing(MenuItem::getText));
     }
 
     public void addImageTab(ImageTabView imageTabView) {

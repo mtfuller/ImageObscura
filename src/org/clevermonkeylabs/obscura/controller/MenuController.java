@@ -1,6 +1,7 @@
 package org.clevermonkeylabs.obscura.controller;
 
 import org.clevermonkeylabs.obscura.core.AbstractController;
+import org.clevermonkeylabs.obscura.core.AbstractPlugin;
 import org.clevermonkeylabs.obscura.model.ImageModel;
 import org.clevermonkeylabs.obscura.util.InformationDialog;
 import org.clevermonkeylabs.obscura.util.Logger;
@@ -17,6 +18,12 @@ import java.io.FileNotFoundException;
 public class MenuController extends AbstractController<ApplicationModel, ApplicationView> {
 
     private InformationDialog noImageSelectedAlert = new InformationDialog("No Image Selected", "There is no image selected to close.");
+
+    public void addPlugin(Class<AbstractPlugin> pluginClass) throws IllegalAccessException, InstantiationException {
+        AbstractPlugin plugin = pluginClass.newInstance();
+        plugin.setController(this);
+        getView().addPlugin(plugin);
+    }
 
     // =================================================================================================================
     // Menu Bar Actions
@@ -76,7 +83,12 @@ public class MenuController extends AbstractController<ApplicationModel, Applica
      *
      */
     public void about() {
-
+        int rgb[] = {255,0,0};
+        for (int y = 0; y < 200; y++) {
+            for (int x = 0; x < 200; x++) {
+                getModel().getCurrentImage().setRGB(x,y, rgb);
+            }
+        }
     }
 
     public void switchImageTab(ImageTabView imageTabView) {

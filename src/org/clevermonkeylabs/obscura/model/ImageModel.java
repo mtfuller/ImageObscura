@@ -1,7 +1,6 @@
 package org.clevermonkeylabs.obscura.model;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import org.clevermonkeylabs.obscura.core.AbstractModel;
 import org.clevermonkeylabs.obscura.util.Logger;
@@ -15,6 +14,7 @@ import java.io.FileNotFoundException;
  * Created by Thomas on 10/12/2017.
  */
 public class ImageModel extends AbstractModel<ImageTabView> {
+    private static int imageCounter = 0;
     private String name;
     private WritableImage image;
     private int[][][] data;
@@ -25,18 +25,9 @@ public class ImageModel extends AbstractModel<ImageTabView> {
         name = file.getName();
         Image imageFile = new Image(new FileInputStream(file));
         image = new WritableImage(imageFile.getPixelReader(), (int) imageFile.getWidth(), (int) imageFile.getHeight());
-        view.getImage().setImage(imageFile);
-        view.getImageTab().setText(name);
+        view.getImage().setImage(image);
+        view.getImageTab().setText(name+" ("+(++imageCounter)+")");
     }
-
-//    /**
-//     * Constructor to create a new image model using a file location of the image in JPG, PNG, GIF, and BMP format.
-//     * @param filePath
-//     */
-//    public ImageModel(String filePath){
-//
-//    }
-//
 //    /**
 //     * Constructor to create a copy of another image with the same width and height
 //     * @param reader
@@ -104,7 +95,10 @@ public class ImageModel extends AbstractModel<ImageTabView> {
      * @param rgb
      */
     public void setRGB(int x, int y, int[] rgb) {
-
+        int argb[] = colorToArray(image.getPixelReader().getArgb(x,y));
+        int red[] = {argb[0], 255, 0, 0};
+        image.getPixelWriter().setArgb(x,y, arrayToColor(red));
+        argb = colorToArray(image.getPixelReader().getArgb(x,y));
     }
 
     /**
@@ -120,6 +114,24 @@ public class ImageModel extends AbstractModel<ImageTabView> {
         name = null;
         image = null;
         data = null;
+    }
+
+    private static int[] colorToArray(int argb) {
+        int[] rgb = new int[4];
+        rgb[0] = ((byte) (argb >>> 24)) & 0x000000FF;
+        rgb[1] = ((byte) (argb >>> 16)) & 0x000000FF;
+        rgb[2] = ((byte) (argb >>> 8)) & 0x000000FF;
+        rgb[3] = ((byte) (argb)) & 0x000000FF;
+        return rgb;
+    }
+
+    private static int arrayToColor(int[] argb) {
+        int value = (byte) argb[0];
+        for (int i = 1; i < argb.length; i++){
+            value = value << 8;
+            value = value | argb[i];
+        }
+        return value;
     }
 
 }
