@@ -7,10 +7,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.clevermonkeylabs.obscura.controller.MenuController;
 import org.clevermonkeylabs.obscura.core.AbstractView;
+import org.clevermonkeylabs.obscura.util.Logger;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by Thomas on 9/28/2017.
@@ -18,7 +23,8 @@ import java.io.IOException;
 public class ApplicationView extends AbstractView<MenuController> {
     private Scene scene = null;
     private SplitPane workspace = null;
-    private ImageTabWorkspace imageTabWorkspace = null;
+    private TabPane imageTabWorkspace;
+    private HashMap<Tab, ImageTabView> imageTabMap = new HashMap<>();
 
 
     public ApplicationView(MenuController controller) {
@@ -30,14 +36,33 @@ public class ApplicationView extends AbstractView<MenuController> {
 
         workspace = (SplitPane) this.scene.lookup("#applicationWorkspace");
 
-        imageTabWorkspace = new ImageTabWorkspace();
+        imageTabWorkspace = new TabPane();
+        imageTabWorkspace.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            getController().switchImageTab(imageTabMap.get(newValue));
+        });
 
         workspace.getItems().add(imageTabWorkspace);
     }
 
     public void addImageTab(ImageTabView imageTabView) {
-        imageTabWorkspace.addTab(imageTabView.getRoot());
-        System.out.println("ADDING... "+imageTabView.toString());
+        Tab newImageTab = imageTabView.getImageTab();
+        imageTabMap.put(newImageTab, imageTabView);
+        imageTabWorkspace.getTabs().add(newImageTab);
+    }
+
+    public void removeImageTab(ImageTabView imageTabView) {
+        Tab newImageTab = imageTabView.getImageTab();
+        imageTabMap.remove(newImageTab);
+        imageTabWorkspace.getTabs().remove(newImageTab);
+    }
+
+    public File promptUserForImage() {
+        Stage stage = (Stage) scene.getWindow();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        return fileChooser.showOpenDialog(stage);
     }
 
     @Override
@@ -54,15 +79,5 @@ public class ApplicationView extends AbstractView<MenuController> {
         }
 
         return root;
-    }
-
-    class ImageTabWorkspace extends TabPane {
-        public void addTab(Node content) {
-            Tab imageTab = new Tab();
-
-            imageTab.setText("New Tab");
-            imageTab.setContent(content);
-            getTabs().add(imageTab);
-        }
     }
 }

@@ -20,6 +20,10 @@ public class ApplicationModel extends AbstractModel<ApplicationView> {
         return currentImage;
     }
 
+    public void setCurrentImage(ImageModel currentImage) {
+        this.currentImage = currentImage;
+    }
+
     public int size() {
         return images.size();
     }

@@ -1,9 +1,15 @@
 package org.clevermonkeylabs.obscura.model;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import org.clevermonkeylabs.obscura.core.AbstractModel;
+import org.clevermonkeylabs.obscura.util.Logger;
 import org.clevermonkeylabs.obscura.view.ImageTabView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Created by Thomas on 10/12/2017.
@@ -14,8 +20,13 @@ public class ImageModel extends AbstractModel<ImageTabView> {
     private int[][][] data;
     private int width, height;
 
-    public ImageModel(ImageTabView view) {
+    public ImageModel(ImageTabView view, File file) throws FileNotFoundException {
         super(view);
+        name = file.getName();
+        Image imageFile = new Image(new FileInputStream(file));
+        image = new WritableImage(imageFile.getPixelReader(), (int) imageFile.getWidth(), (int) imageFile.getHeight());
+        view.getImage().setImage(imageFile);
+        view.getImageTab().setText(name);
     }
 
 //    /**
@@ -103,5 +114,11 @@ public class ImageModel extends AbstractModel<ImageTabView> {
 
     }
 
+    public void dispose() {
+        name = null;
+        image = null;
+        data = null;
+        System.gc();
+    }
 
 }

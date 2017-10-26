@@ -4,8 +4,8 @@ package org.clevermonkeylabs.obscura.core;
  * Created by Thomas on 10/25/2017.
  */
 public class AbstractController<M extends AbstractModel, V extends AbstractView> {
-    private M model = null;
-    private V view = null;
+    private M model;
+    private V view;
 
     public M getModel() {
         return model;
