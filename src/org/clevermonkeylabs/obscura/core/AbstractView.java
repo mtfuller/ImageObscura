@@ -31,5 +31,10 @@ public abstract class AbstractView<C extends AbstractController> {
         this.root = root;
     }
 
+    public void dispose() {
+        controller = null;
+        root = null;
+    }
+
     public abstract Node buildScene();
 }

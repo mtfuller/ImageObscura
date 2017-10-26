@@ -114,11 +114,12 @@ public class ImageModel extends AbstractModel<ImageTabView> {
 
     }
 
+    @Override
     public void dispose() {
+        super.dispose();
         name = null;
         image = null;
         data = null;
-        System.gc();
     }
 
 }

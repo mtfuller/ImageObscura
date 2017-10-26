@@ -1,6 +1,7 @@
 package org.clevermonkeylabs.obscura.model;
 
 import org.clevermonkeylabs.obscura.core.AbstractModel;
+import org.clevermonkeylabs.obscura.util.Logger;
 import org.clevermonkeylabs.obscura.view.ApplicationView;
 
 import java.util.ArrayList;

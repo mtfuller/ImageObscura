@@ -2,6 +2,7 @@ package org.clevermonkeylabs.obscura.controller;
 
 import org.clevermonkeylabs.obscura.core.AbstractController;
 import org.clevermonkeylabs.obscura.model.ImageModel;
+import org.clevermonkeylabs.obscura.util.InformationDialog;
 import org.clevermonkeylabs.obscura.util.Logger;
 import org.clevermonkeylabs.obscura.view.ApplicationView;
 import org.clevermonkeylabs.obscura.model.ApplicationModel;
@@ -14,6 +15,8 @@ import java.io.FileNotFoundException;
  * Created by Thomas on 10/12/2017.
  */
 public class MenuController extends AbstractController<ApplicationModel, ApplicationView> {
+
+    private InformationDialog noImageSelectedAlert = new InformationDialog("No Image Selected", "There is no image selected to close.");
 
     // =================================================================================================================
     // Menu Bar Actions
@@ -61,9 +64,12 @@ public class MenuController extends AbstractController<ApplicationModel, Applica
      */
     public void close() {
         ImageModel selected = getModel().getCurrentImage();
-        ImageTabView selectedView = selected.getView();
-        getView().removeImageTab(selectedView);
-        removeImageModel(selectedView);
+        if(selected == null) noImageSelectedAlert.showAndWait();
+        else {
+            ImageTabView selectedView = selected.getView();
+            getView().removeImageTab(selectedView);
+            removeImageModel(selectedView);
+        }
     }
 
     /**
@@ -74,14 +80,20 @@ public class MenuController extends AbstractController<ApplicationModel, Applica
     }
 
     public void switchImageTab(ImageTabView imageTabView) {
-        ImageModel imageModel = imageTabView.getController().getModel();
+
+        ImageModel imageModel = null;
+        if (imageTabView != null) imageModel = imageTabView.getController().getModel();
         getModel().setCurrentImage(imageModel);
     }
 
     public void removeImageModel(ImageTabView imageTabView) {
         Logger.info("Closing the \"" + imageTabView.getImageTab().getText() + "\" image tab.");
+        getView().removeImageTab(imageTabView);
         ImageModel imageModel = imageTabView.getController().getModel();
         getModel().removeImage(imageModel);
         imageModel.dispose();
+        imageTabView.getController().dispose();
+        imageTabView.dispose();
+        System.gc();
     }
 }

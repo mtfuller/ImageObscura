@@ -30,6 +30,13 @@ public class ImageTabView extends AbstractView<ImageTabController> {
     public Tab getImageTab() {return this.imageTab; }
 
     @Override
+    public void dispose() {
+        super.dispose();
+        image = null;
+        imageTab = null;
+    }
+
+    @Override
     public Node buildScene() {
         this.image = new ImageView();
         this.image.setPreserveRatio(true);

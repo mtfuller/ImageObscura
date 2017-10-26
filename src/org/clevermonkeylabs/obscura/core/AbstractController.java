@@ -22,4 +22,9 @@ public class AbstractController<M extends AbstractModel, V extends AbstractView>
     public void setView(V view) {
         this.view = view;
     }
+
+    public void dispose() {
+        model = null;
+        view = null;
+    }
 }

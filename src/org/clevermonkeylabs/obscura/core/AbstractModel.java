@@ -17,4 +17,8 @@ public class AbstractModel<V extends AbstractView> {
     public void setView(V view) {
         this.view = view;
     }
+
+    public void dispose() {
+        view = null;
+    }
 }
