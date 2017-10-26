@@ -1,6 +1,7 @@
 package org.clevermonkeylabs.obscura.model;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import org.clevermonkeylabs.obscura.core.AbstractModel;
 import org.clevermonkeylabs.obscura.util.Logger;
@@ -27,16 +28,26 @@ public class ImageModel extends AbstractModel<ImageTabView> {
         image = new WritableImage(imageFile.getPixelReader(), (int) imageFile.getWidth(), (int) imageFile.getHeight());
         view.getImage().setImage(image);
         view.getImageTab().setText(name+" ("+(++imageCounter)+")");
+        width = (int) imageFile.getWidth();
+        height = (int) imageFile.getHeight();
+        Logger.info(String.format("Dimensions: (%s,%s)", imageFile.getWidth(), imageFile.getHeight()));
     }
-//    /**
-//     * Constructor to create a copy of another image with the same width and height
-//     * @param reader
-//     * @param width
-//     * @param height
-//     */
-//    public ImageModel(PixelReader reader, int width, int height) {
-//
-//    }
+    /**
+     * Constructor to create a copy of another image with the same width and height
+     * @param reader
+     * @param width
+     * @param height
+     */
+    public ImageModel(ImageTabView view, PixelReader reader, int width, int height) {
+        super(view);
+        name = "New Image";
+        image = new WritableImage(reader, width, height);
+        view.getImage().setImage(image);
+        view.getImageTab().setText(name+" ("+(++imageCounter)+")");
+        this.width = width;
+        this.height = height;
+        Logger.info(String.format("Dimensions: (%s,%s)", width, height));
+    }
 
     /**
      *
@@ -79,6 +90,12 @@ public class ImageModel extends AbstractModel<ImageTabView> {
     public int getHeight() {
         return height;
     }
+
+    /**
+     *
+     * @return
+     */
+    public PixelReader getPixelReader() { return image.getPixelReader(); }
 
     /**
      *
