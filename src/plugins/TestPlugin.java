@@ -14,6 +14,8 @@ public class TestPlugin extends AbstractPlugin {
 
     @Override
     public void run() {
+        String temp = "1.few";
+        Logger.info("NUMBER: " + Double.parseDouble(temp));
         Logger.info("This is the Test Plugin!");
     }
 }
