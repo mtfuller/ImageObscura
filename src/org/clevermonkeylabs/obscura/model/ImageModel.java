@@ -66,7 +66,8 @@ public class ImageModel extends AbstractModel<ImageTabView> {
      * @return  An array of 3 integers values of the pixel data, in the format of: [RED, GREEN, BLUE].
      */
     public int[] getRGB(int x, int y) {
-        return new int[]{0,0,0};
+        int[] argb = RGBValues.argbToArray(getPixelReader().getArgb(x,y));
+        return new int[]{argb[1],argb[2],argb[3]};
     }
 
     /**
