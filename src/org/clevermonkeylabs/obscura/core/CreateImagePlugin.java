@@ -6,9 +6,6 @@ import org.clevermonkeylabs.obscura.model.ImageModel;
 import org.clevermonkeylabs.obscura.util.Logger;
 import org.clevermonkeylabs.obscura.view.ImageTabView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-
 /**
  * Created by Thomas on 10/26/2017.
  */
@@ -28,7 +25,7 @@ public abstract class CreateImagePlugin extends AbstractPlugin {
         ImageTabView newImageTab = new ImageTabView(imageTabController);
         imageTabController.setView(newImageTab);
 
-        ImageModel imageModel = new ImageModel(newImageTab, currentImageReader, currentImage.getWidth(),currentImage.getHeight());
+        ImageModel imageModel = new ImageModel(newImageTab, getName(), currentImageReader, currentImage.getWidth(),currentImage.getHeight());
         imageTabController.setModel(imageModel);
 
         Logger.info("Running plugin to modify the image...");

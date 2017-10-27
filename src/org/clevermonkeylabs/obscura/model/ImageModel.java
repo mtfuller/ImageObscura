@@ -3,8 +3,10 @@ package org.clevermonkeylabs.obscura.model;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import javafx.scene.image.WritablePixelFormat;
 import org.clevermonkeylabs.obscura.core.AbstractModel;
 import org.clevermonkeylabs.obscura.util.Logger;
+import org.clevermonkeylabs.obscura.util.RGBValues;
 import org.clevermonkeylabs.obscura.view.ImageTabView;
 
 import java.io.File;
@@ -38,12 +40,12 @@ public class ImageModel extends AbstractModel<ImageTabView> {
      * @param width
      * @param height
      */
-    public ImageModel(ImageTabView view, PixelReader reader, int width, int height) {
+    public ImageModel(ImageTabView view, String name, PixelReader reader, int width, int height) {
         super(view);
-        name = "New Image";
+        this.name = name;
         image = new WritableImage(reader, width, height);
         view.getImage().setImage(image);
-        view.getImageTab().setText(name+" ("+(++imageCounter)+")");
+        view.getImageTab().setText(this.name+" ("+(++imageCounter)+")");
         this.width = width;
         this.height = height;
         Logger.info(String.format("Dimensions: (%s,%s)", width, height));
@@ -73,6 +75,21 @@ public class ImageModel extends AbstractModel<ImageTabView> {
      */
     public int[][][] getData() {
         return data;
+    }
+
+
+    public int[][][] getKernel(int x, int y, int size) {
+        int offset = size/2;
+        PixelReader reader = getPixelReader();
+        int[][][] kernel = new int[size][size][3];
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                int value = reader.getArgb((x-offset)+col, (y-offset)+row);
+                int[] argb = RGBValues.argbToArray(value);
+                kernel[row][col] = new int[]{argb[1], argb[2], argb[3]};
+            }
+        }
+        return kernel;
     }
 
     /**
@@ -113,9 +130,8 @@ public class ImageModel extends AbstractModel<ImageTabView> {
      */
     public void setRGB(int x, int y, int[] rgb) {
         int argb[] = colorToArray(image.getPixelReader().getArgb(x,y));
-        int red[] = {argb[0], 255, 0, 0};
-        image.getPixelWriter().setArgb(x,y, arrayToColor(red));
-        argb = colorToArray(image.getPixelReader().getArgb(x,y));
+        int color[] = {argb[0], rgb[0], rgb[1], rgb[2]};
+        image.getPixelWriter().setArgb(x,y, arrayToColor(color));
     }
 
     /**
